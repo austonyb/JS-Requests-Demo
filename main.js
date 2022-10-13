@@ -29,6 +29,24 @@ function getAllChars () {
   })
 }
 
+function getOldChars (event) {
+  event.preventDefault()
+
+  clearCharacters()
+
+  const age = ageInput.value
+
+  axios.get(baseURL + '/character/' + '?age=' + age)
+  .then((response) => {
+    for (let i = 0; i < response.data.length; i++){
+      createCharacterCard(response.data[i])
+    }
+  })
+  .catch((err) => {
+    console.log('got an error:' + err)
+  })
+}
+
 
 //this axios call uses a route param (which is theCharId)
 function getOneChar(event) {
@@ -71,5 +89,7 @@ for (let i = 0; i < charBtns.length; i++){
 }
 
 getAllBtn.addEventListener('click', getAllChars)
+
+ageForm.addEventListener('submit', getOldChars)
 
 // getAllChars()
