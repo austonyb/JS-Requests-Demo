@@ -48,6 +48,33 @@ function getOldChars (event) {
 }
 
 
+function createNewChar(event) {
+  event.preventDefault()
+
+  clearCharacters()
+
+  let newLikes = newLikesText.value.split(',')
+
+  let body = {
+    firstName: newFirstInput.value,
+    lastName: newLastInput.value,
+    gender: newGenderDropDown.value,
+    age: newAgeInput.value,
+    likes: newLikes
+  }
+
+  axios.post(baseURL + '/character/', body)
+    .then((response) => {
+      for (let i = 0; i < response.data.length; i++){
+        createCharacterCard(response.data[i])
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
 //this axios call uses a route param (which is theCharId)
 function getOneChar(event) {
 
@@ -91,5 +118,7 @@ for (let i = 0; i < charBtns.length; i++){
 getAllBtn.addEventListener('click', getAllChars)
 
 ageForm.addEventListener('submit', getOldChars)
+
+createForm.addEventListener('submit', createNewChar)
 
 // getAllChars()
